@@ -17,7 +17,7 @@ class MachinemaxPipeline:
     mongo_db = 'guardian'
 
     def __init__(self):
-        # Creating a db connection to mongo
+        """Creating a db connection to mongo"""
         self.conn = pymongo.MongoClient(
             self.mongo_uri,
             27017
@@ -26,6 +26,6 @@ class MachinemaxPipeline:
         self.collection = db[self.collection_name]
 
     def process_item(self, item, spider):
-        # Insertion of crawled articles to the collection
+        """Insertion of crawled articles to the collection"""
         self.collection.insert(dict(item))
         return item
