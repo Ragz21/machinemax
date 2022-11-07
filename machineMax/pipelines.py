@@ -8,16 +8,30 @@
 from itemadapter import ItemAdapter
 
 import pymongo
+from settings import MONGO_DB, MONGO_URI
 
 
 class MachinemaxPipeline:
+    """
+        Scrapy pipeline to establish connection to MongoDB
 
+        Attributes
+        ----------
+            collection_name : str
+                Name of the mongoDB collection.
+            mongo_uri : str
+                MongoDB connection string.
+            mongo_db : str
+                MongoDB name.
+    """
     collection_name = 'articles'
-    mongo_uri = 'mongodb+srv://machineMax:<password>@cluster0.wmlolkb.mongodb.net/?retryWrites=true&w=majority'
-    mongo_db = 'guardian'
+    mongo_uri = MONGO_URI
+    mongo_db = MONGO_DB
 
     def __init__(self):
-        """Creating a db connection to mongo"""
+        """
+            Initialise a db connection to mongo
+        """
         self.conn = pymongo.MongoClient(
             self.mongo_uri,
             27017
@@ -26,6 +40,20 @@ class MachinemaxPipeline:
         self.collection = db[self.collection_name]
 
     def process_item(self, item, spider):
-        """Insertion of crawled articles to the collection"""
+        """
+            Default method to handle insertion of crawled articles to the collection.
+
+            Parameters
+            ----------
+            item : Iterable
+                These are the items list scraped by the spider.
+            spider :
+                mentions the spider used to scrape.
+
+            Returns
+            -------
+            MachinemaxItem
+                Parsed article
+        """
         self.collection.insert(dict(item))
         return item

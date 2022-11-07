@@ -3,12 +3,34 @@ from machineMax.items import MachinemaxItem
 
 
 class GuardianSpider(scrapy.Spider):
-    # Name of the spider
+    """
+        Spider class
+
+        Attributes
+        ----------
+            name : str
+                Name of the spider.
+            allowed_domains : list
+                This is a list of allowed domains to scrap.
+            start_urls : list
+                This is a list of URLs to crawl.
+    """
     name = "theguardian"
     allowed_domains = ['www.theguardian.com']
     start_urls = ['https://www.theguardian.com/']
 
     def parse(self, response):
+        """
+            This method processes the response and returns scrapped data following more URLs
+
+            Parameters
+            ----------
+            response
+
+            Returns
+            -------
+            yields scrapy.Request with call back to parsearticle()
+        """
         # The path to article url as found using inspect element
         article_urls_xpath = '//*[contains(@class,"fc-item__link")]//@href'
         for article_url in response.xpath(article_urls_xpath).extract():
@@ -17,8 +39,19 @@ class GuardianSpider(scrapy.Spider):
                 callback=self.parsearticle
             )
 
-
     def parsearticle(self, response):
+        """
+            This method parses the crawled data
+
+            Parameters
+            ----------
+            response
+
+            Returns
+            -------
+            MachinemaxItem
+                Yields parsed article
+        """
         # Test if the article is already crawled
         if ('cached' in response.flags):
             return

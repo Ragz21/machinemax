@@ -66,6 +66,9 @@ ITEM_PIPELINES = {
     'machineMax.pipelines.MachinemaxPipeline': 300,
 }
 
+MONGO_URI = 'mongodb+srv://machineMax:<password>@cluster0.wmlolkb.mongodb.net/?retryWrites=true&w=majority'
+MONGO_DB = 'guardian'
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
